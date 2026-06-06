@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Tag de Viewport Essencial para Mobile-First -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Jogo do Amor - Cartas de Conexão</title>
+  
+  <!-- Google Fonts para Tipografia Sofisticada -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. SISTEMA DE DESIGN & CORES
+       ========================================================================== */
+    :root {
+      --bg-color: #F9F6F0;          /* Creme / Off-white suave */
+      --card-bg: #FFFFFF;          /* Branco sólido */
+      --text-dark: #3A3330;        /* Carvão terroso escuro */
+      --text-muted: #8E827A;       /* Terroso médio */
+      --gold-matte: #D4AF37;       /* Ouro fosco elegante */
+      --gold-dark: #B89047;        /* Ouro fosco com mais contraste */
+      --gold-light: #F5EFE0;       /* Ouro fosco muito suave para fundos */
+      
+      /* Sombra premium multi-camada para profundidade suave */
+      --shadow-premium: 0 4px 6px rgba(184, 150, 137, 0.02), 
+                        0 10px 20px rgba(184, 150, 137, 0.06), 
+                        0 20px 40px rgba(184, 150, 137, 0.06);
+      
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+    }
+
+    /* ==========================================================================
+       2. REGRAS GERAIS DE COMPATIBILIDADE SMARTPHONE
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      /* Evita realce azul ao tocar em botões/cards no iOS e Android */
+      -webkit-tap-highlight-color: transparent; 
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      /* Desativa zoom de duplo toque e rolagem elástica incômoda */
+      touch-action: manipulation;
+      /* Impede que o usuário selecione acidentalmente o texto ao dar toques rápidos */
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      /* Gradiente radial de luz ao centro */
+      background-image: radial-gradient(circle at center, #FFFFFF 0%, var(--bg-color) 100%);
+    }
+
+    /* Cabeçalho */
+    header {
+      text-align: center;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .logo svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--gold-matte);
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 0.5rem;
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       3. CARD DE PERGUNTA (INTERATIVO & RESPONSIVO)
+       ========================================================================== */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .card-container {
+      width: 100%;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 24px; /* Bordas arredondadas de 24px conforme diretriz */
+      padding: 3rem 2rem;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-premium);
+      border: 1px solid rgba(212, 175, 55, 0.15); /* Bordas sutilmente douradas */
+      cursor: pointer; /* Indica que o card é clicável */
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    /* Feedback visual de toque no Card */
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    /* Badge/Tag da Categoria */
+    .card-tag {
+      background-color: var(--gold-light);
+      color: var(--gold-dark);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    /* Pergunta */
+    .card-question {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      line-height: 1.55;
+      text-align: center;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin: 2rem 0;
+      word-wrap: break-word;
+    }
+
+    /* Divisor elegante em ouro fosco */
+    .card-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .divider-line {
+      height: 1px;
+      background-color: var(--gold-matte);
+      opacity: 0.3;
+      flex: 1;
+      max-width: 50px;
+    }
+
+    .divider-dot {
+      color: var(--gold-matte);
+      font-size: 0.8rem;
+    }
+
+    /* Dica sutil para celulares */
+    .card-tap-tip {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+      margin-top: 10px;
+    }
+
+    /* ==========================================================================
+       4. CONTROLES E BOTÕES (STYLE FLAT GOLD)
+       ========================================================================== */
+    .controls {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    /* Botão Principal Flat Ouro Fosco */
+    .btn-next {
+      width: 100%;
+      font-family: var(--font-sans);
+      background-color: var(--gold-dark);
+      color: #FFFFFF;
+      border: none;
+      padding: 1.1rem 2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(184, 144, 71, 0.15);
+      transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-next:hover {
+      background-color: #A37E3B;
+    }
+
+    .btn-next:active {
+      transform: scale(0.97);
+    }
+
+    .btn-next:disabled {
+      background-color: var(--text-muted);
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Painel de Status */
+    .status-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .counter-badge {
+      background-color: var(--gold-light);
+      color: var(--gold-dark);
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-weight: 700;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .btn-reset {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .btn-reset:hover {
+      color: var(--gold-dark);
+    }
+
+    /* Rodapé da Página */
+    footer {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1.5rem;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       5. CSS KEYFRAMES PARA ANIMAÇÃO DE SWIPE (Hardware-Accelerated)
+       ========================================================================== */
+    @keyframes swipeLeftRight {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 1;
+      }
+      35% {
+        transform: translate3d(-120vw, 15px, 0) rotate(-15deg);
+        opacity: 0;
+      }
+      36% {
+        transform: translate3d(120vw, 15px, 0) rotate(15deg);
+        opacity: 0;
+      }
+      100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .card.animating-swipe {
+      animation: swipeLeftRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    /* Ajustes Finos para Telas Pequenas */
+    @media (max-height: 600px) {
+      body {
+        padding: 0.8rem;
+      }
+      .card {
+        min-height: 250px;
+        padding: 2rem 1.5rem;
+      }
+      .card-question {
+        font-size: 1.15rem;
+        margin: 1rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      Jogo do Amor
+    </div>
+    <div class="subtitle">Cartas de Conexão</div>
+  </header>
+
+  <!-- JOGO -->
+  <main>
+    <div class="card-container">
+      <div class="card" id="question-card" role="button" aria-label="Toque para próxima pergunta">
+        <span class="card-tag" id="card-tag">Conexão</span>
+        
+        <p class="card-question" id="question-text">
+          Se você pudesse reviver um único dia do nosso passado juntos, qual dia você escolheria?
+        </p>
+        
+        <div class="card-divider">
+          <div class="divider-line"></div>
+          <span class="divider-dot">♦</span>
+          <div class="divider-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="controls">
+      <button class="btn-next" id="btn-next">
+        Próxima Pergunta
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+
+      <div class="status-container">
+        <span>Respondidas: <strong class="counter-badge" id="counter-value">0</strong></span>
+        <button class="btn-reset" id="btn-reset">Zerar</button>
+      </div>
+
+      <div class="card-tap-tip">Dica: Você também pode tocar na carta!</div>
+    </div>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer>
+    Funciona offline • Toque no card ou no botão<br>
+    Substitua as perguntas no código HTML.
+  </footer>
+
+  <script>
+    /**
+     * ==========================================================================
+     * LISTA DE PERGUNTAS (Substitua as linhas abaixo pelas suas do PDF)
+     * ==========================================================================
+     */
+    const cartasDePerguntas = [
+      "Se você pudesse reviver um único dia do nosso passado juntos, qual dia você escolheria?",
+      "Qual é o seu maior sonho para o nosso futuro e como posso te apoiar a realizá-lo?",
+      "O que eu faço que faz você se sentir mais seguro(a) e acolhido(a) no nosso relacionamento?",
+      "Qual pequena rotina nossa você mais valoriza e não gostaria de perder por nada?"
+    ];
+
+    /**
+     * ==========================================================================
+     * CONTROLE E ESTADO DO JOGO
+     * ==========================================================================
+     */
+    let ultimoIndice = 0; // Começa com o índice da primeira pergunta padrão
+    let totalRespondidas = 0;
+    let isAnimating = false;
+
+    // Elementos da DOM
+    const cardElement = document.getElementById('question-card');
+    const questionTextElement = document.getElementById('question-text');
+    const nextButton = document.getElementById('btn-next');
+    const counterValueElement = document.getElementById('counter-value');
+    const resetButton = document.getElementById('btn-reset');
+    const cardTagElement = document.getElementById('card-tag');
+
+    // Categorias de exibição visual
+    const categorias = ["Conexão", "Nossa História", "Futuro", "Reflexão", "Intimidade"];
+
+    /**
+     * Sorteia uma pergunta garantindo a não-repetição consecutiva
+     */
+    function obterProximaPergunta() {
+      if (cartasDePerguntas.length <= 1) {
+        return { pergunta: cartasDePerguntas[0] || "Sem cartas cadastradas.", index: 0 };
+      }
+
+      let novoIndice;
+      do {
+        novoIndice = Math.floor(Math.random() * cartasDePerguntas.length);
+      } while (novoIndice === ultimoIndice);
+
+      ultimoIndice = novoIndice;
+      return {
+        pergunta: cartasDePerguntas[novoIndice],
+        index: novoIndice
+      };
+    }
+
+    function obterCategoriaAleatoria() {
+      return categorias[Math.floor(Math.random() * categorias.length)];
+    }
+
+    /**
+     * Realiza a troca da pergunta disparando a animação de Swipe (Hardware-Accelerated)
+     */
+    function exibirProximaPergunta() {
+      if (isAnimating) return;
+      isAnimating = true;
+      nextButton.disabled = true;
+
+      // Adiciona classe que dispara os CSS Keyframes
+      cardElement.classList.add('animating-swipe');
+
+      // Troca os dados da carta exatamente quando ela está fora da tela (200ms)
+      setTimeout(() => {
+        const { pergunta } = obterProximaPergunta();
+        const categoria = obterCategoriaAleatoria();
+        
+        questionTextElement.textContent = pergunta;
+        cardTagElement.textContent = categoria;
+        
+        totalRespondidas++;
+        counterValueElement.textContent = totalRespondidas;
+      }, 200);
+
+      // Finaliza a animação de swipe-in e libera o botão (600ms)
+      setTimeout(() => {
+        cardElement.classList.remove('animating-swipe');
+        isAnimating = false;
+        nextButton.disabled = false;
+      }, 600);
+    }
+
+    /**
+     * Reseta as respondidas
+     */
+    function zerarProgresso() {
+      if (confirm("Quer mesmo zerar o contador de respondidas?")) {
+        totalRespondidas = 0;
+        counterValueElement.textContent = totalRespondidas;
+        ultimoIndice = -1;
+        exibirProximaPergunta();
+      }
+    }
+
+    // Configurando eventos compatíveis com cliques/toques rápidos
+    nextButton.addEventListener('click', exibirProximaPergunta);
+    cardElement.addEventListener('click', exibirProximaPergunta);
+    resetButton.addEventListener('click', zerarProgresso);
+  </script>
+</body>
+</html>
