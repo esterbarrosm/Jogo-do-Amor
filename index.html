@@ -1,496 +1,505 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <!-- Tag de Viewport Essencial para Mobile-First -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Jogo do Amor - Cartas de Conexão</title>
-  
-  <!-- Google Fonts para Tipografia Sofisticada -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jogo do Amor - 10 Dates para se Conectar</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
-  <style>
-    /* ==========================================================================
-       1. SISTEMA DE DESIGN & CORES
-       ========================================================================== */
-    :root {
-      --bg-color: #F9F6F0;          /* Creme / Off-white suave */
-      --card-bg: #FFFFFF;          /* Branco sólido */
-      --text-dark: #3A3330;        /* Carvão terroso escuro */
-      --text-muted: #8E827A;       /* Terroso médio */
-      --gold-matte: #D4AF37;       /* Ouro fosco elegante */
-      --gold-dark: #B89047;        /* Ouro fosco com mais contraste */
-      --gold-light: #F5EFE0;       /* Ouro fosco muito suave para fundos */
-      
-      /* Sombra premium multi-camada para profundidade suave */
-      --shadow-premium: 0 4px 6px rgba(184, 150, 137, 0.02), 
-                        0 10px 20px rgba(184, 150, 137, 0.06), 
-                        0 20px 40px rgba(184, 150, 137, 0.06);
-      
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
-    }
+    <style>
+        :root {
+            --bg-color: #F9F6F0;       /* Warm Cream */
+            --card-bg: #FFFFFF;        
+            --text-primary: #2C2623;   
+            --text-secondary: #7A6F68; 
+            --accent-gold: #D4AF37;    
+            --accent-rose: #E0A899;    
+            --btn-hover: #C59B27;
+        }
 
-    /* ==========================================================================
-       2. REGRAS GERAIS DE COMPATIBILIDADE SMARTPHONE
-       ========================================================================== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      /* Evita realce azul ao tocar em botões/cards no iOS e Android */
-      -webkit-tap-highlight-color: transparent; 
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      /* Desativa zoom de duplo toque e rolagem elástica incômoda */
-      touch-action: manipulation;
-      /* Impede que o usuário selecione acidentalmente o texto ao dar toques rápidos */
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+        }
 
-    body {
-      font-family: var(--font-sans);
-      background-color: var(--bg-color);
-      color: var(--text-dark);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem;
-      /* Gradiente radial de luz ao centro */
-      background-image: radial-gradient(circle at center, #FFFFFF 0%, var(--bg-color) 100%);
-    }
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
 
-    /* Cabeçalho */
-    header {
-      text-align: center;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-    }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
 
-    .logo {
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
+        .divider {
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-rose);
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
 
-    .logo svg {
-      width: 24px;
-      height: 24px;
-      fill: var(--gold-matte);
-    }
+        .game-container {
+            width: 100%;
+            max-width: 400px;
+            perspective: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .subtitle {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-top: 0.5rem;
-      font-weight: 700;
-    }
+        .card {
+            background-color: var(--card-bg);
+            width: 100%;
+            height: 430px;
+            border-radius: 24px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                0 10px 15px -3px rgba(0, 0, 0, 0.03),
+                0 20px 25px -5px rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-    /* ==========================================================================
-       3. CARD DE PERGUNTA (INTERATIVO & RESPONSIVO)
-       ========================================================================== */
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      max-width: 420px;
-    }
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-4px) scale(1.01);
+                box-shadow: 
+                    0 10px 20px -5px rgba(44, 38, 35, 0.08),
+                    0 20px 30px -10px rgba(44, 38, 35, 0.04);
+            }
+        }
 
-    .card-container {
-      width: 100%;
-      margin-bottom: 2rem;
-      position: relative;
-    }
+        .card-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
 
-    .card {
-      background-color: var(--card-bg);
-      border-radius: 24px; /* Bordas arredondadas de 24px conforme diretriz */
-      padding: 3rem 2rem;
-      min-height: 320px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: var(--shadow-premium);
-      border: 1px solid rgba(212, 175, 55, 0.15); /* Bordas sutilmente douradas */
-      cursor: pointer; /* Indica que o card é clicável */
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-    }
+        .card-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            line-height: 1.5;
+            font-style: italic;
+            color: var(--text-primary);
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    /* Feedback visual de toque no Card */
-    .card:active {
-      transform: scale(0.98);
-    }
+        .card-footer {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
 
-    /* Badge/Tag da Categoria */
-    .card-tag {
-      background-color: var(--gold-light);
-      color: var(--gold-dark);
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 20px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-    }
+        .counter {
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
 
-    /* Pergunta */
-    .card-question {
-      font-family: var(--font-serif);
-      font-size: 1.4rem;
-      line-height: 1.55;
-      text-align: center;
-      font-weight: 400;
-      color: var(--text-dark);
-      margin: 2rem 0;
-      word-wrap: break-word;
-    }
+        /* Container para os botões secundários secundários */
+        .control-panel {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 1.5rem;
+        }
 
-    /* Divisor elegante em ouro fosco */
-    .card-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-      justify-content: center;
-    }
+        .btn-secondary {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
 
-    .divider-line {
-      height: 1px;
-      background-color: var(--gold-matte);
-      opacity: 0.3;
-      flex: 1;
-      max-width: 50px;
-    }
+        .btn-secondary:hover {
+            color: var(--text-primary);
+        }
 
-    .divider-dot {
-      color: var(--gold-matte);
-      font-size: 0.8rem;
-    }
+        .btn-secondary:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
 
-    /* Dica sutil para celulares */
-    .card-tap-tip {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      opacity: 0.6;
-      margin-top: 10px;
-    }
+        .btn-next {
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+        }
 
-    /* ==========================================================================
-       4. CONTROLES E BOTÕES (STYLE FLAT GOLD)
-       ========================================================================== */
-    .controls {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-    }
+        .btn-next:hover { background-color: var(--btn-hover); }
+        .btn-next:active { transform: scale(0.98); }
 
-    /* Botão Principal Flat Ouro Fosco */
-    .btn-next {
-      width: 100%;
-      font-family: var(--font-sans);
-      background-color: var(--gold-dark);
-      color: #FFFFFF;
-      border: none;
-      padding: 1.1rem 2rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(184, 144, 71, 0.15);
-      transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      letter-spacing: 0.5px;
-    }
+        /* Classes de Animação */
+        .swipe-out { animation: swipeOutLeft 0.35s forwards cubic-bezier(0.4, 0, 0.2, 1); }
+        .swipe-in { animation: swipeInRight 0.35s forwards cubic-bezier(0.4, 0, 1, 1); }
+        .swipe-out-reverse { animation: swipeOutRight 0.35s forwards cubic-bezier(0.4, 0, 0.2, 1); }
+        .swipe-in-reverse { animation: swipeInLeft 0.35s forwards cubic-bezier(0.4, 0, 1, 1); }
 
-    .btn-next:hover {
-      background-color: #A37E3B;
-    }
-
-    .btn-next:active {
-      transform: scale(0.97);
-    }
-
-    .btn-next:disabled {
-      background-color: var(--text-muted);
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Painel de Status */
-    .status-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .counter-badge {
-      background-color: var(--gold-light);
-      color: var(--gold-dark);
-      padding: 3px 8px;
-      border-radius: 8px;
-      font-weight: 700;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-    }
-
-    .btn-reset {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
-
-    .btn-reset:hover {
-      color: var(--gold-dark);
-    }
-
-    /* Rodapé da Página */
-    footer {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 1.5rem;
-      line-height: 1.4;
-    }
-
-    /* ==========================================================================
-       5. CSS KEYFRAMES PARA ANIMAÇÃO DE SWIPE (Hardware-Accelerated)
-       ========================================================================== */
-    @keyframes swipeLeftRight {
-      0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-        opacity: 1;
-      }
-      35% {
-        transform: translate3d(-120vw, 15px, 0) rotate(-15deg);
-        opacity: 0;
-      }
-      36% {
-        transform: translate3d(120vw, 15px, 0) rotate(15deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    .card.animating-swipe {
-      animation: swipeLeftRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
-
-    /* Ajustes Finos para Telas Pequenas */
-    @media (max-height: 600px) {
-      body {
-        padding: 0.8rem;
-      }
-      .card {
-        min-height: 250px;
-        padding: 2rem 1.5rem;
-      }
-      .card-question {
-        font-size: 1.15rem;
-        margin: 1rem 0;
-      }
-    }
-  </style>
+        @keyframes swipeOutLeft {
+            0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateX(-120%) rotate(-10deg); opacity: 0; }
+        }
+        @keyframes swipeInRight {
+            0% { transform: translateX(120%) rotate(10deg); opacity: 0; }
+            100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+        }
+        @keyframes swipeOutRight {
+            0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateX(120%) rotate(10deg); opacity: 0; }
+        }
+        @keyframes swipeInLeft {
+            0% { transform: translateX(-120%) rotate(-10deg); opacity: 0; }
+            100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- CABEÇALHO -->
-  <header>
-    <div class="logo">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-      </svg>
-      Jogo do Amor
-    </div>
-    <div class="subtitle">Cartas de Conexão</div>
-  </header>
+    <header>
+        <h1>10 Dates para se Conectar</h1>
+        <div class="divider"></div>
+    </header>
 
-  <!-- JOGO -->
-  <main>
-    <div class="card-container">
-      <div class="card" id="question-card" role="button" aria-label="Toque para próxima pergunta">
-        <span class="card-tag" id="card-tag">Conexão</span>
-        
-        <p class="card-question" id="question-text">
-          Se você pudesse reviver um único dia do nosso passado juntos, qual dia você escolheria?
-        </p>
-        
-        <div class="card-divider">
-          <div class="divider-line"></div>
-          <span class="divider-dot">♦</span>
-          <div class="divider-line"></div>
+    <div class="game-container">
+        <div class="card" id="card" onclick="proximaPergunta()">
+            <div class="card-tag" id="card-tag">Carregando...</div>
+            <div class="card-content" id="card-text">Prepare-se para se conectar...</div>
+            <div class="card-footer" id="card-number">Card 00</div>
         </div>
-      </div>
+
+        <div class="counter" id="counter">Cartas visualizadas: 1 / 90</div>
+
+        <!-- Painel de Controle Adicionado -->
+        <div class="control-panel">
+            <button class="btn-secondary" id="btn-back" onclick="voltarPergunta()" disabled>
+                ← Voltar
+            </button>
+            <button class="btn-secondary" onclick="zerarJogo()">
+                ↺ Zerar
+            </button>
+        </div>
+
+        <button class="btn-next" onclick="proximaPergunta()">Próxima Pergunta</button>
     </div>
 
-    <!-- CONTROLES -->
-    <div class="controls">
-      <button class="btn-next" id="btn-next">
-        Próxima Pergunta
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </button>
+    <script>
+        const temasConfig = {
+            "SOBRE VOCÊ E SOBRE MIM": { bg: "#E3EDF7", texto: "#2C4A6F" },
+            "METAS, SONHOS E FUTURO": { bg: "#E2F0D9", texto: "#385623" },
+            "SEXO E INTIMIDADE": { bg: "#FCE4D6", texto: "#C65911" },
+            "TRABALHO E DINHEIRO": { bg: "#FFF2CC", texto: "#7F6000" },
+            "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS": { bg: "#E1D5E7", texto: "#533263" },
+            "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE": { bg: "#D5E8D4", texto: "#274E13" },
+            "SAÚDE E ESTILO DE VIDA": { bg: "#F8CECC", texto: "#B85450" },
+            "RESPEITO E COMPROMISSO": { bg: "#DAE8FC", texto: "#1F4E79" },
+            "DATE SURPRESA": { bg: "#FFE5CC", texto: "#D35400" },
+            "NOSSA HISTÓRIA": { bg: "#F5F5F5", texto: "#464646" }
+        };
 
-      <div class="status-container">
-        <span>Respondidas: <strong class="counter-badge" id="counter-value">0</strong></span>
-        <button class="btn-reset" id="btn-reset">Zerar</button>
-      </div>
+        const cartasDePerguntas = [
+            // SOBRE VOCÊ E SOBRE MIM
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "01", txt: "Se você só pudesse escolher 3 coisas para comer pelo resto da sua vida, o que seria?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "02", txt: "Como você descreveria a sua personalidade?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "03", txt: "Falem sobre 5 qualidades que vocês gostam um no outro." },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "04", txt: "Qual é o seu filme, sua série, sua música e livro favorito?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "05", txt: "Quais são seus hobbies favoritos?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "06", txt: "Como você gosta de relaxar e recarregar suas energias depois de um dia difícil?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "07", txt: "Se você pudesse descrever um momentode autodescoberta significativo em sua vida, qual seria? E o que você aprendeu sobre você?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "08", txt: "O que mais te inspira na vida? Existem filosofias ou ideias que moldam sua maneira de olhar o mundo?" },
+            { tema: "SOBRE VOCÊ E SOBRE MIM", num: "09", txt: "Quais coisas você quer fazer antes de morrer?" },
 
-      <div class="card-tap-tip">Dica: Você também pode tocar na carta!</div>
-    </div>
-  </main>
+            // METAS, SONHOS E FUTURO
+            { tema: "METAS, SONHOS E FUTURO", num: "01", txt: "Quais são os seus sonhos para o futuro?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "02", txt: "Como você imagina a vida juntos daqui a cinco anos? E daqui a dez anos?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "03", txt: "Quais são os passos práticos que vocês podem tomar agora para começar a transformar seus sonhos em realidade?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "04", txt: "O que você pode fazer para conseguir se aproximar dos seus objetivos futuros?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "05", txt: "O que posso fazer para te apoiar na realização de seus sonhos individuais?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "06", txt: "Quais são as experiências que vocês gostariam de compartilhar juntos ao longo dos próximos anos?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "07", txt: "Quais são os obstáculos que vocês acreditam que podem ter ao buscar suas metas e como podem enfrentá-los juntos?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "08", txt: "O que vocês podem fazer para nutrir a paixão e o entusiasmo em relação aos seus sonhos compartilhados?" },
+            { tema: "METAS, SONHOS E FUTURO", num: "09", txt: "Quais são os legados que desejam deixar como casal?" },
 
-  <!-- RODAPÉ -->
-  <footer>
-    Funciona offline • Toque no card ou no botão<br>
-    Substitua as perguntas no código HTML.
-  </footer>
+            // SEXO E INTIMIDADE
+            { tema: "SEXO E INTIMIDADE", num: "01", txt: "O que você acha que é mais importante para criar uma conexão emocional e física forte durante o sexo?" },
+            { tema: "SEXO E INTIMIDADE", num: "02", txt: "Quais são os rituais ou hábitos que podemos colocar na nossa rotina para aumentar a intimidade e a conexão sexual?" },
+            { tema: "SEXO E INTIMIDADE", num: "03", txt: "Quais são as suas expectativas em relação à frequência e à qualidade do sexo em nosso relacionamento?" },
+            { tema: "SEXO E INTIMIDADE", num: "04", txt: "O que te faz perder a conexão sexual e quais os caminhos para recuperá-la?" },
+            { tema: "SEXO E INTIMIDADE", num: "05", txt: "Existe alguma insecurity, trauma ou limite sexual que você gostaria de compartilhar?" },
+            { tema: "SEXO E INTIMIDADE", num: "06", txt: "Existem desejos ou fantasias que você gostaria de explorar comigo?" },
+            { tema: "SEXO E INTIMIDADE", num: "07", txt: "O que eu faço na hora do sexo que você mais gosta?" },
+            { tema: "SEXO E INTIMIDADE", num: "08", txt: "O que aumenta ainda mais o seu prazer quando estamos transando?" },
+            { tema: "SEXO E INTIMIDADE", num: "09", txt: "Como vocês podem manter a paixão e a conexão sexual ao longo do tempo em seu relacionamento?" },
 
-  <script>
-    /**
-     * ==========================================================================
-     * LISTA DE PERGUNTAS (Substitua as linhas abaixo pelas suas do PDF)
-     * ==========================================================================
-     */
-    const cartasDePerguntas = [
-      "Se você pudesse reviver um único dia do nosso passado juntos, qual dia você escolheria?",
-      "Qual é o seu maior sonho para o nosso futuro e como posso te apoiar a realizá-lo?",
-      "O que eu faço que faz você se sentir mais seguro(a) e acolhido(a) no nosso relacionamento?",
-      "Qual pequena rotina nossa você mais valoriza e não gostaria de perder por nada?"
-    ];
+            // TRABALHO E DINHEIRO
+            { tema: "TRABALHO E DINHEIRO", num: "01", txt: "O que é sucesso profissional para você?" },
+            { tema: "TRABALHO E DINHEIRO", num: "02", txt: "Quais las suas expectativas financeiras?" },
+            { tema: "TRABALHO E DINHEIRO", num: "03", txt: "Como você se sente em relação ao equilíbrio entre trabalho e vida pessoal do seu parceiro?" },
+            { tema: "TRABALHO E DINHEIRO", num: "04", txt: "O que você pensa sobre a divisão de dinheiro no nosso relacionamento?" },
+            { tema: "TRABALHO E DINHEIRO", num: "05", txt: "Existem preocupações financeiras que você sente que precisamos abordar como casal?" },
+            { tema: "TRABALHO E DINHEIRO", num: "06", txt: "Existem hábitos de consumo que você gostaria que mudássemos?" },
+            { tema: "TRABALHO E DINHEIRO", num: "07", txt: "Como podemos tornar nossas metas financeiras um projeto compartilhado e motivador para ambos?" },
+            { tema: "TRABALHO E DINHEIRO", num: "08", txt: "Há algum medo ou insegurança que você tem relacionado ao dinheiro que gostaria de discutir?" },
+            { tema: "TRABALHO E DINHEIRO", num: "09", txt: "De que maneira a estabilidade ou instabilidade financeira impactam nosso planejamento para o futuro?" },
 
-    /**
-     * ==========================================================================
-     * CONTROLE E ESTADO DO JOGO
-     * ==========================================================================
-     */
-    let ultimoIndice = 0; // Começa com o índice da primeira pergunta padrão
-    let totalRespondidas = 0;
-    let isAnimating = false;
+            // COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "01", txt: "Como você prefere discutir assuntos importantes: em conversas espontâneas ou planejadas?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "02", txt: "Como você se sente sobre a maneira como resolvemos nossos últimos desentendimentos?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "03", txt: "Como você se sente em relação ao uso de humor durante nossas discussões?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "04", txt: "Existe algum tema que você sente que evitamos discutir, mas precisamos falar sobre?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "05", txt: "Existe algo que eu faço durante os conflitos que te magoa ou impede a resolução?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "06", txt: "Você acha que nossos estilos de comunicação são compatíveis? Como podemos melhorar?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "07", txt: "Como você gostaria que eu demonstrasse apoio durante momentos de estresse ou conflito?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "08", txt: "Existe algo que eu disse em um conflito anterior que você gostaria de revisitar para esclarecer ou corrigir?" },
+            { tema: "COMUNICAÇÃO E RESOLUÇÃO DE CONFLITOS", num: "09", txt: "Quais estratégias podemos adotar para evitar mal-entendidos nas nossas conversas?" },
 
-    // Elementos da DOM
-    const cardElement = document.getElementById('question-card');
-    const questionTextElement = document.getElementById('question-text');
-    const nextButton = document.getElementById('btn-next');
-    const counterValueElement = document.getElementById('counter-value');
-    const resetButton = document.getElementById('btn-reset');
-    const cardTagElement = document.getElementById('card-tag');
+            // TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "01", txt: "Existe algo que você nunca tentou antes, mas gostaria de experimentar comigo?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "02", txt: "Existem limites específicos que você sente que precisamos estabelecer ou ajustar?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "03", txt: "Existem gostos ou preferências que você sacrificou pelo nosso relacionamento? Como se sente a respeito disso?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "04", txt: "Como podemos criar novas tradições legais na nossa rotina?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "05", txt: "Você acha que nossos amigos e família respeitam os limites do nosso relacionamento? Como podemos melhorar isso?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "06", txt: "Como você avalia a importância de datas comemorativas e aniversários em nosso relacionamento?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "07", txt: "Existem atividades ou hobbies que você prefere fazer sozinho?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "08", txt: "Como você se sente sobre a quantidade de tempo que passamos juntos atualmente? De que maneira podemos melhorar esse tempo de qualidade?" },
+            { tema: "TEMPO DE QUALIDADE, LIMITES E COMPATIBILIDADE", num: "09", txt: "Existem atividades externas ou grupos nos quais poderíamos nos envolver, juntos, para expandir o nosso círculo social?" },
 
-    // Categorias de exibição visual
-    const categorias = ["Conexão", "Nossa História", "Futuro", "Reflexão", "Intimidade"];
+            // SAÚDE E ESTILO DE VIDA
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "01", txt: "Como você descreveria seu estilo de vida atual e como ele influencia nossa relação?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "02", txt: "Existem hábitos de saúde que você gostaria que mudássemos juntos?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "03", txt: "Como você acha que o consumo de álcool, tabaco ou outras substâncias afeta nossa relação?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "04", txt: "Você se sente confortável discutindo suas preocupações de saúde comigo?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "05", txt: "Você se sente apoiado por mim em suas escolhas de estilo de vida? Como posso oferecer mais suporte?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "06", txt: "Que atividades de bem-estar você gostaria de experimentar junto comigo?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "07", txt: "Como podemos motivar um ao outro a manter um compromisso com um estilo de vida saudável, especialmente durante períodos difíceis?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "08", txt: "Existe alguma mudança em nosso ambiente doméstico que poderia nos ajudar a viver de maneira mais saudável?" },
+            { tema: "SAÚDE E ESTILO DE VIDA", num: "09", txt: "Como a espiritualidade influencia seu bem-estar pessoal e nossa vida como casal?" },
 
-    /**
-     * Sorteia uma pergunta garantindo a não-repetição consecutiva
-     */
-    function obterProximaPergunta() {
-      if (cartasDePerguntas.length <= 1) {
-        return { pergunta: cartasDePerguntas[0] || "Sem cartas cadastradas.", index: 0 };
-      }
+            // RESPEITO E COMPROMISSO
+            { tema: "RESPEITO E COMPROMISSO", num: "01", txt: "Para você, quais são os principais acordos que temos dentro dos nossos relacionamentos?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "02", txt: "De que maneiras você se sente respeitado e valorizado por mim? Como posso melhorar?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "03", txt: "Existem limites pessoais que você sente que precisam ser mais respeitados?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "04", txt: "Como eu posso demonstrar compromisso com nosso relacionamento no dia a dia?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "05", txt: "Você se sente respeitado nas opiniões que divergimos? Como você acredita que podemos manter o respeito em relação a essas diferenças?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "06", txt: "Como você se sente em relação aos acordos que fizemos dentro do nosso relacionamento até agora?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "07", txt: "Você acha que há um equilíbrio saudável entre nosso compromisso um com o outro e nossa independência pessoal?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "08", txt: "Você se sente seguro para expressar quando algo não está respeitando seus limites ou expectativas?" },
+            { tema: "RESPEITO E COMPROMISSO", num: "09", txt: "O que te faria sentir que os nossos acordos estão sendo quebrados?" },
 
-      let novoIndice;
-      do {
-        novoIndice = Math.floor(Math.random() * cartasDePerguntas.length);
-      } while (novoIndice === ultimoIndice);
+            // DATE SURPRESA
+            { tema: "DATE SURPRESA", num: "01", txt: "Planejem o dia perfeito juntos e definam uma data pra ele acontecer." },
+            { tema: "DATE SURPRESA", num: "02", txt: "Façam uma coisa improvável hoje que vocês normalmente não fariam. Uma loucura juntos, algo que vocês vão contar futuramente e dar boas risadas!" },
+            { tema: "DATE SURPRESA", num: "03", txt: "Cada um tem direito a fazer 3 perguntas e 3 desafios." },
+            { tema: "DATE SURPRESA", num: "04", txt: "Pensem em uma festa temática, marquem uma data, organizem juntos e convidem pessoas importantes pra vocês." },
+            { tema: "DATE SURPRESA", num: "05", txt: "Liguem para alguém que vocês amam e que foi importante pra vocês como casal e agradeçam com uma mensagem carinhosa." },
+            { tema: "DATE SURPRESA", num: "06", txt: "Contem um para o outro surpresas que vocês adorariam ter, depois disso você tem uma missão: realizá-las até o fim do ano, de forma inesperada." },
+            { tema: "DATE SURPRESA", num: "07", txt: "Planeje, em segredo, a programação de um dia inteiro para o seu parceiro e marque uma data para ela acontecer." },
+            { tema: "DATE SURPRESA", num: "08", txt: "Planejem a próxima viagem juntos agora, com lugar, data e roteiro." },
+            { tema: "DATE SURPRESA", num: "09", txt: "Escrevam uma lista de “coisas a fazer juntos antes de morrer”." },
 
-      ultimoIndice = novoIndice;
-      return {
-        pergunta: cartasDePerguntas[novoIndice],
-        index: novoIndice
-      };
-    }
+            // NOSSA HISTÓRIA
+            { tema: "NOSSA HISTÓRIA", num: "01", txt: "Qual foi o momento em que você sentiu que nossa conexão estava mais forte do que nunca?" },
+            { tema: "NOSSA HISTÓRIA", num: "02", txt: "Quando foi que você percebeu que estava apaixonado por mim?" },
+            { tema: "NOSSA HISTÓRIA", num: "03", txt: "Existem momentos específicos em nossa história que você considera como pontos de virada para sermos o que somos hoje?" },
+            { tema: "NOSSA HISTÓRIA", num: "04", txt: "Se pudéssemos voltar no tempo para reviver uma experiência que compartilhamos juntos, qual você escolheria e por quê?" },
+            { tema: "NOSSA HISTÓRIA", num: "05", txt: "Qual é a lembrança mais engraçada ou descontraída que você tem de nós dois juntos?" },
+            { tema: "NOSSA HISTÓRIA", num: "06", txt: "Se você fosse contar a nossa história para um desconhecido, como contaria?" },
+            { tema: "NOSSA HISTÓRIA", num: "07", txt: "Se pudéssemos extrair uma lição valiosa de nossa história, qual você diria?" },
+            { tema: "NOSSA HISTÓRIA", num: "08", txt: "Se você pudesse escolher qualquer lugar do mundo para me levar, qual seria e por quê?" },
+            { tema: "NOSSA HISTÓRIA", num: "09", txt: "Quais são as coisas que a gente precisa prometer nunca fazer um com o outro?" }
+        ];
 
-    function obterCategoriaAleatoria() {
-      return categorias[Math.floor(Math.random() * categorias.length)];
-    }
+        // Histórico para permitir a função "Voltar"
+        let historicoDeCartas = [];
+        let perguntasDisponiveis = [...cartasDePerguntas];
+        let cartaAtual = null;
+        let animationControl = false;
 
-    /**
-     * Realiza a troca da pergunta disparando a animação de Swipe (Hardware-Accelerated)
-     */
-    function exibirProximaPergunta() {
-      if (isAnimating) return;
-      isAnimating = true;
-      nextButton.disabled = true;
+        const cardElement = document.getElementById('card');
+        const tagElement = document.getElementById('card-tag');
+        const textElement = document.getElementById('card-text');
+        const numberElement = document.getElementById('card-number');
+        const counterElement = document.getElementById('counter');
+        const btnBackElement = document.getElementById('btn-back');
 
-      // Adiciona classe que dispara os CSS Keyframes
-      cardElement.classList.add('animating-swipe');
+        function aplicarEstiloTema(tema) {
+            const config = temasConfig[tema] || { bg: "#F5F5F5", texto: "#2C2623" };
+            tagElement.style.backgroundColor = config.bg;
+            tagElement.style.color = config.texto;
+        }
 
-      // Troca os dados da carta exatamente quando ela está fora da tela (200ms)
-      setTimeout(() => {
-        const { pergunta } = obterProximaPergunta();
-        const categoria = obterCategoriaAleatoria();
-        
-        questionTextElement.textContent = pergunta;
-        cardTagElement.textContent = categoria;
-        
-        totalRespondidas++;
-        counterValueElement.textContent = totalRespondidas;
-      }, 200);
+        function atualizarRenderizacaoCard(carta) {
+            tagElement.innerText = carta.tema;
+            textElement.innerText = carta.txt;
+            numberElement.innerText = `Pergunta ${carta.num}`;
+            aplicarEstiloTema(carta.tema);
+            counterElement.innerText = `Cartas visualizadas: ${historicoDeCartas.length + 1} / ${cartasDePerguntas.length}`;
+            
+            // Ativa/Desativa botão voltar
+            btnBackElement.disabled = historicoDeCartas.length === 0;
+        }
 
-      // Finaliza a animação de swipe-in e libera o botão (600ms)
-      setTimeout(() => {
-        cardElement.classList.remove('animating-swipe');
-        isAnimating = false;
-        nextButton.disabled = false;
-      }, 600);
-    }
+        function sortearPergunta() {
+            if (perguntasDisponiveis.length === 0) {
+                // Se esgotar, reinicia mantendo o histórico limpo para o novo ciclo
+                perguntasDisponiveis = [...cartasDePerguntas];
+            }
 
-    /**
-     * Reseta as respondidas
-     */
-    function zerarProgresso() {
-      if (confirm("Quer mesmo zerar o contador de respondidas?")) {
-        totalRespondidas = 0;
-        counterValueElement.textContent = totalRespondidas;
-        ultimoIndice = -1;
-        exibirProximaPergunta();
-      }
-    }
+            let indiceSorteado;
+            let novaCarta;
 
-    // Configurando eventos compatíveis com cliques/toques rápidos
-    nextButton.addEventListener('click', exibirProximaPergunta);
-    cardElement.addEventListener('click', exibirProximaPergunta);
-    resetButton.addEventListener('click', zerarProgresso);
-  </script>
+            do {
+                indiceSorteado = Math.floor(Math.random() * perguntasDisponiveis.length);
+                novaCarta = perguntasDisponiveis[indiceSorteado];
+            } while (novaCarta === cartaAtual && cartasDePerguntas.length > 1);
+
+            perguntasDisponiveis.splice(indiceSorteado, 1);
+            return novaCarta;
+        }
+
+        function proximaPergunta() {
+            if (animationControl) return;
+            animationControl = true;
+
+            // Remove classes antigas
+            cardElement.className = "card";
+            void cardElement.offsetWidth; // Força reflow do CSS
+
+            // Anima saindo para a esquerda
+            cardElement.classList.add('swipe-out');
+
+            setTimeout(() => {
+                // Salva a carta atual no histórico antes de mudar
+                if (cartaAtual) {
+                    historicoDeCartas.push(cartaAtual);
+                }
+
+                cartaAtual = sortearPergunta();
+                atualizarRenderizacaoCard(cartaAtual);
+
+                // Entra pela direita
+                cardElement.classList.remove('swipe-out');
+                cardElement.classList.add('swipe-in');
+            }, 300);
+
+            setTimeout(() => { animationControl = false; }, 650);
+        }
+
+        function voltarPergunta() {
+            if (animationControl || historicoDeCartas.length === 0) return;
+            animationControl = true;
+
+            cardElement.className = "card";
+            void cardElement.offsetWidth;
+
+            // Animação reversa: sai para a direita
+            cardElement.classList.add('swipe-out-reverse');
+
+            setTimeout(() => {
+                // Devolve a carta atual para a pilha de disponíveis
+                if (cartaAtual) {
+                    perguntasDisponiveis.push(cartaAtual);
+                }
+
+                // Recupera a anterior do histórico
+                const cartaAnterior = historicoDeCartas.pop();
+                
+                // Remove ela das disponíveis para não re-sortear imediatamente
+                const idx = perguntasDisponiveis.indexOf(cartaAnterior);
+                if (idx > -1) perguntasDisponiveis.splice(idx, 1);
+
+                cartaAtual = cartaAnterior;
+                atualizarRenderizacaoCard(cartaAtual);
+
+                // Entra pela esquerda
+                cardElement.classList.remove('swipe-out-reverse');
+                cardElement.classList.add('swipe-in-reverse');
+            }, 300);
+
+            setTimeout(() => { animationControl = false; }, 650);
+        }
+
+        function zerarJogo() {
+            if (!confirm("Deseja mesmo zerar o jogo e reembaralhar todas as cartas?")) return;
+            
+            historicoDeCartas = [];
+            perguntasDisponiveis = [...cartasDePerguntas];
+            cartaAtual = sortearPergunta();
+            
+            cardElement.className = "card";
+            void cardElement.offsetWidth;
+            cardElement.classList.add('swipe-in');
+            
+            atualizarRenderizacaoCard(cartaAtual);
+        }
+
+        // Configuração Inicial
+        cartaAtual = sortearPergunta();
+        atualizarRenderizacaoCard(cartaAtual);
+    </script>
 </body>
 </html>
